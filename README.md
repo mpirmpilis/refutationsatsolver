@@ -42,4 +42,4 @@ The Project can be imported in Eclipse in the following way:
    The only thing that has to be configured is an application server (e.g. Tomcat) which is specifically designed to
    run Servlets and JAVA Server Pages that are based on web-applications. The project’s version was Tomcat v10.0
    Server. After successfully configuring the Tomcat server and deploy the application, open index.html and type
-   a problem. The solution will be displayed in the same page.
+   a problem. The solution will be displayed in the same html page.
