@@ -1,18 +1,19 @@
-Propositional Logic Satisfiability (SAT) Solver
-This developed specialized tool aims to solve propositional logic satisfiability problems for the CS180 - Logic course of the University of Crete (https://www.csd.uoc.gr/~hy180/) using the refutation systems method (Greek: Κατασκευή Μοντέλων).
+## Propositional Logic Satisfiability (SAT) Solver
+This developed specialized tool aims to solve propositional logic satisfiability problems for the **CS180 - Logic** course of the University of Crete (https://www.csd.uoc.gr/~hy180/) using the refutation systems method (Greek: **Κατασκευή Μοντέλων**).
 
 Application comes in two versions: Offline standalone desktop version and Web version.
 
-Problem input instructions
+### Problem input instructions
 Input may be given in the following three (3) forms:
-
+```
 1. {P->(Q|R), Q->S, R->S}/P->S    # Combination of {...}/     [brackets + slash form]
 2. {~P|Q,P,~Q}                    # Only {...}                [brackets only form]
 3. /(~P->~Q)->((~P->Q)->P)        # Only /                    [slash only form  --  used for proofs]
+```
 Use parenthesis to avoid ambiguity.
 
-Acceptable characters and operators
-
+**Acceptable characters and operators**
+```
 Only latin capital/lowercase letters for variables    (A....Z and a....z)
 ~     (Logical NOT   ¬)
 &     (logical AND   ∧)
@@ -21,7 +22,8 @@ Only latin capital/lowercase letters for variables    (A....Z and a....z)
 <->   (If only if    ↔)
 
 Numbers and any other symbols are not accepted!
-Installation guide
+```
+### Installation guide
 The Project can be imported in Eclipse in the following way:
 
 1) File  (upper left corner)
