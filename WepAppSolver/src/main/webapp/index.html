@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="description" content="[CS180 - Logic] - Refutation System SAT Solver">
+	<meta name="keywords" content="HTML,CSS,XML,JavaScript">
+	<meta name="author" content="George Mpirmpilis (csd3296)">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">	<!-- make webpage responsive -->
+	
+	<title>[CS180 - Logic] - Refutation System SAT Solver</title>
+	<script type="text/javascript" src='js/checkInput.js' async></script>
+</head>
+
+<body style=background-color:#d4fffc;>
+<div style="text-align:center">
+	<p style="font-size:20pt;"> A Refutation Systems Satisfiability Solver for <b>CS180 - Logic</b></p><br>
+	<form method=get action=Solve name="problemForm" onsubmit="return checkInputForm()">
+		Enter problem to solve: <input style="width:500px;font-size:14pt;" type=text id="txt1" name=inputproblem>
+		<br><br>
+		<input type=submit id="sbmt" value="Check Satisfiability">
+	</form>
+</div>
+
+<br><br>
+<div style="text-align:left">
+<br><br><p style="font-family: 'Courier New', monospace;"><b>You may type the problem in {.....}/ or {.....} or / form. Examples below:</b></p><br>
+<p style="font-family: 'Courier New', monospace;"><b>1. {(R|(~P->~S))->Q, P->R, P|Q}/Q|(R->~S)</b></p>
+<p style="font-family: 'Courier New', monospace;"><b>2. {P->(Q|R),Q->S,R->S,~(P->S)}</b></p>
+<p style="font-family: 'Courier New', monospace;"><b>3. /(~P->~Q)->((~P->Q)->P)</b></p><br>
+<br><br>
+<p style="font-family: 'Courier New', monospace;"><b>Supported operators</b><br></p>
+<p style="font-family: 'Courier New', monospace;"><b>&#8594; as -></b><br></p>
+<p style="font-family: 'Courier New', monospace;"><b>&#8596; as &lt;-></b><br></p>
+<p style="font-family: 'Courier New', monospace;"><b>&#172;  as ~</b><br></p>
+<p style="font-family: 'Courier New', monospace;"><b>&#8743; as &amp;</b><br></p>
+<p style="font-family: 'Courier New', monospace;"><b>&#8744; as |</b><br></p>
+</div>
+</body>
+</html>
