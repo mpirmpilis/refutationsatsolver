@@ -31,14 +31,14 @@ The Project can be imported in Eclipse in the following way:
 3) At “Import source”, click Directory…
 4) Select the top-level folder of the project (the one that contains the src, build and other files/folders) and click Select Folder
 ```
-**How to execute both versions:**
-  **• Desktop version (offline)**
+**How to execute both versions:**  
+  **• Desktop version (offline)**  
    In order execute the jar file:
     Double-click on .jar file or  open cmd -> Change to jar's directory --> type java -jar NameOftheJarFile.jar
     *Using the cmd method will display any errors if something doesn't work correctly.
     Java version must be ≥ 1.8, otherwise it cannot be run.
 
-  **• Web version (online)**
+  **• Web version (online)**  
    The only thing that has to be configured is an application server (e.g. Tomcat) which is specifically designed to
    run Servlets and JAVA Server Pages that are based on web-applications. The project’s version was Tomcat v10.0
    Server. After successfully configuring the Tomcat server and deploy the application, open index.html and type
