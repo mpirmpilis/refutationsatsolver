@@ -33,10 +33,10 @@ The Project can be imported in Eclipse in the following way:
 ```
 **How to execute both versions:**  
   **• Desktop version (offline)**  
-   In order execute the jar file:
-    Double-click on .jar file or  open cmd -> Change to jar's directory --> type java -jar NameOftheJarFile.jar
-    *Using the cmd method will display any errors if something doesn't work correctly.
-    Java version must be ≥ 1.8, otherwise it cannot be run.
+   In order execute the jar file:  
+      &nbsp;Double-click on .jar file &nbsp;**or** &nbsp;open cmd -> Change to jar's directory --> type java -jar NameOftheJarFile.jar  
+    &nbsp;* Using the cmd method will display any errors if something doesn't work correctly.  
+    **Java version must be ≥ 1.8, otherwise it cannot be run.**
 
   **• Web version (online)**  
    The only thing that has to be configured is an application server (e.g. Tomcat) which is specifically designed to
