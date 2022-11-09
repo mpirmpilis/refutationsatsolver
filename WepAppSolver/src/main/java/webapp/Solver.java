@@ -11,7 +11,7 @@ import java.util.Map.Entry;
 
 
 /**
- * @author Georgios Mpirmpilis (csd3296)
+ * @author Georgios Mpirmpilis
  * <p> This class illustrates the problem solver </p>
  * <br><br><b>Solver</b> : Takes the input typed from user in index.html
  * and returns the solution in the same window.

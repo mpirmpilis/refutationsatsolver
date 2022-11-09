@@ -23,7 +23,7 @@ import javax.swing.text.DefaultEditorKit;
 
 
 /**
- * @author Georgios Mpirmpilis (csd3296)
+ * @author Georgios Mpirmpilis
  * <p> This class illustrates the GUI for the desktop app only </p>
  * <br><br><b>View</b> : Creates a new GUI with the ability to either upload a file
  * or directly give the problem in the textbox. Pressing "Solve" button, runs the actual

@@ -1,7 +1,7 @@
 package webapp;
 
 /**
- * @author Georgios Mpirmpilis (csd3296)
+ * @author Georgios Mpirmpilis
  * <p> This class illustrates the main statement along with it's attributes </p>
  * <br><br><b>Statement</b> : Takes the given premise and analyzes it to extract the
  * main operator along with the left and right parts (the parts that are joined by the operator).

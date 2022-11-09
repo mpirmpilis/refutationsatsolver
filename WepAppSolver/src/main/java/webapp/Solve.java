@@ -10,7 +10,7 @@ import java.io.PrintWriter;
 /**
  * Servlet implementation class Solve
  * 
- * @author Georgios Mpirmpilis (csd3296)
+ * @author Georgios Mpirmpilis
  * <p> This class sets up the communication between HTML and the actual java code </p>
  * <br><br><b>Solve</b> : Creates a new instance of the solver (giving the input) and gets
  * the result formatted suitably for the HTML display.

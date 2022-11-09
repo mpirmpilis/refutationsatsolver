@@ -1,7 +1,7 @@
 package webapp;
 
 /**
- * @author Georgios Mpirmpilis (csd3296)
+ * @author Georgios Mpirmpilis
  * <p> This class models the operators that joins the two premises </p>
  * <br><br><b>Operator</b> : Enumerates all possible operator combinations used
  * for solving the problem.
