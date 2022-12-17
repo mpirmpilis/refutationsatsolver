@@ -9,13 +9,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 import java.util.Map.Entry;
 import javax.swing.JOptionPane;
 
@@ -32,11 +27,11 @@ import javax.swing.JOptionPane;
 
 
 
-public class Solver implements Cloneable {
+public class Solver {
 	static View view = null;
 	String mainSet = "", output = "";
-	List<ArrayList<Statement>> subsets = new LinkedList<ArrayList<Statement>>();
-	Map<Operator, ArrayList<Statement>> symtable = new LinkedHashMap<Operator, ArrayList<Statement>>();
+	List<ArrayList<Statement>> subsets = new LinkedList<>();
+	Map<Operator, ArrayList<Statement>> symtable = new LinkedHashMap<>();
 	
 	Statement selectedStatement = null, copy = null, left = null, right = null;
 	int subsetNumber = 0, indexDeleted = 0, minCounter = 0;       // indexDeleted is used to write the new premise at the correct place in subset
@@ -68,9 +63,9 @@ public class Solver implements Cloneable {
 	
 	/* this is where the actual program starts */
 	public void solveProblem(String file_path) throws IOException {
-		Operator op = null, key = null, key2 = null;
+		Operator op = null, key, key2;
 		Statement copyLeft = null, copyRight = null;		// used for IF_ONLY_IF and NOT_IF_ONLY_IF
-		boolean result = false, newSpawnSetOperator = false;
+		boolean result, newSpawnSetOperator = false;
 		int number = 0, spareMinisetNumber = -1;  // used when there is no element so assign this number
 		
 		readFile(file_path);
@@ -139,12 +134,9 @@ public class Solver implements Cloneable {
 						left  = new Statement(selectedStatement.getLeftPart());
 						right = new Statement(selectedStatement.getRightPart());
 					}
-					
-					for (int h = 0; h < subsets.size(); h++) {
-						
-					}
+
 					subsets.get(subsetNumber).remove(selectedStatement);
-					subsets.add(new ArrayList<Statement>());
+					subsets.add(new ArrayList<>());
 					for(Statement s : subsets.get(subsetNumber)) {
 						subsets.get(subsets.size() - 1).add((Statement) s.clone());
 					}
@@ -218,28 +210,28 @@ public class Solver implements Cloneable {
 				if (op == Operator.OR || op == Operator.IF_THEN || op == Operator.NOT_AND || op == Operator.IF_ONLY_IF || op == Operator.NOT_IF_ONLY_IF) {
 					if (op == Operator.OR || op == Operator.IF_THEN || op == Operator.NOT_AND) {
 						key = left.getOperator();
-						if (symtable.get(key) == null)   // check if rule in symtable has an active arraylist with premises
-							symtable.put(key, new ArrayList<Statement>());
+						// check if rule in symtable has an active arraylist with premises
+						symtable.computeIfAbsent(key, k -> new ArrayList<>());
 						symtable.get(key).add(left);
 					} else if (op == Operator.IF_ONLY_IF) {
 						key = left.getOperator();
-						if (symtable.get(key) == null)   // check if rule in symtable has an active arraylist with premises
-							symtable.put(key, new ArrayList<Statement>());
+						// check if rule in symtable has an active arraylist with premises
+						symtable.computeIfAbsent(key, k -> new ArrayList<>());
 						symtable.get(key).add(left);
 						
 						key = right.getOperator();
-						if (symtable.get(key) == null)   // check if rule in symtable has an active arraylist with premises
-							symtable.put(key, new ArrayList<Statement>());
+						// check if rule in symtable has an active arraylist with premises
+						symtable.computeIfAbsent(key, k -> new ArrayList<>());
 						symtable.get(key).add(right);
 					} else {
 						key = left.getOperator();
-						if (symtable.get(key) == null)   // check if rule in symtable has an active arraylist with premises
-							symtable.put(key, new ArrayList<Statement>());
+						// check if rule in symtable has an active arraylist with premises
+						symtable.computeIfAbsent(key, k -> new ArrayList<>());
 						symtable.get(key).add(left);
 						
 						key = copyRight.getOperator();
-						if (symtable.get(key) == null)   // check if rule in symtable has an active arraylist with premises
-							symtable.put(key, new ArrayList<Statement>());
+						// check if rule in symtable has an active arraylist with premises
+						symtable.computeIfAbsent(key, k -> new ArrayList<>());
 						symtable.get(key).add(copyRight);
 					}
 
@@ -247,27 +239,27 @@ public class Solver implements Cloneable {
 					// add all premises to symtable from new miniset (must register them also)
 					for (Statement s : subsets.get(subsets.size() - 1)) {
 						key = s.getOperator();
-						if (symtable.get(key) == null)   // check if rule in symtable has an active arraylist with premises
-							symtable.put(key, new ArrayList<Statement>());
+						// check if rule in symtable has an active arraylist with premises
+						symtable.computeIfAbsent(key, k -> new ArrayList<>());
 						
 						symtable.get(key).add(s);
 					}	
 				} else {
 					key = left.getOperator();
-					if (symtable.get(key) == null)   // check if rule in symtable has an active arraylist with premises
-						symtable.put(key, new ArrayList<Statement>());
+					// check if rule in symtable has an active arraylist with premises
+					symtable.computeIfAbsent(key, k -> new ArrayList<>());
 					symtable.get(key).add(left);
 					if (op != Operator.DOUBLE_NOT && op != Operator.NO_OPERATOR) {							
 						key2 = right.getOperator();
-						if (symtable.get(key2) == null)   // check if rule in symtable has an active arraylist with premises
-							symtable.put(key2, new ArrayList<Statement>());
+						// check if rule in symtable has an active arraylist with premises
+						symtable.computeIfAbsent(key2, k -> new ArrayList<>());
 						symtable.get(key2).add(right);
 					}
 				}
 			}
 			
 			// update the output
-			output = output + "C" + Integer.toString(iteration) + " = {{";	
+			output = output + "C" + iteration + " = {{";
 			if (newSpawnSetOperator && subsets.size() > 1 && subsetNumber < subsets.size() - 1) {
 				ArrayList<Statement> removed = subsets.remove(subsets.size() - 1);
 				subsets.add(subsetNumber + 1, removed);
@@ -288,36 +280,18 @@ public class Solver implements Cloneable {
 				if (delRuleUsed) {
 					output += "\t\t[del]\n";
 				} else {
-					switch(op) {
-					case AND:
-						output += "\t\t[\u2227]\n";
-						break;
-					case DOUBLE_NOT:
-						output += "\t\t[\u00AC\u00AC]\n";
-						break;
-					case IF_ONLY_IF:
-						output += "\t\t[\u2194]\n";
-						break;
-					case IF_THEN:
-						output += "\t\t[\u2192]\n";
-						break;
-					case NOT_AND:
-						output += "\t\t[\u00AC\u2227]\n";
-						break;
-					case NOT_IF_ONLY_IF:
-						output += "\t\t[\u00AC\u2194]\n";
-						break;
-					case NOT_IF_THEN:
-						output += "\t\t[\u00AC\u2192]\n";
-						break;
-					case NOT_OR:
-						output += "\t\t[\u00AC\u2228]\n";
-						break;
-					case OR:
-						output += "\t\t[\u2228]\n";
-						break;
-					default:
-						break;
+					switch (Objects.requireNonNull(op)) {
+						case AND -> output += "\t\t[\u2227]\n";
+						case DOUBLE_NOT -> output += "\t\t[\u00AC\u00AC]\n";
+						case IF_ONLY_IF -> output += "\t\t[\u2194]\n";
+						case IF_THEN -> output += "\t\t[\u2192]\n";
+						case NOT_AND -> output += "\t\t[\u00AC\u2227]\n";
+						case NOT_IF_ONLY_IF -> output += "\t\t[\u00AC\u2194]\n";
+						case NOT_IF_THEN -> output += "\t\t[\u00AC\u2192]\n";
+						case NOT_OR -> output += "\t\t[\u00AC\u2228]\n";
+						case OR -> output += "\t\t[\u2228]\n";
+						default -> {
+						}
 					}
 				}
 			}
@@ -364,15 +338,13 @@ public class Solver implements Cloneable {
         	file = new File(solutionFileName);
         	fileNumber++;
         }
-        
-        Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF-8"));
-        try {
-        	out.write(output);
-        } finally {
-        	String path = new File(solutionFileName).getAbsolutePath();
-        	JOptionPane.showMessageDialog(null, "Solution has been successfully written to file " + solutionFileName + "      in path \n" + path, "Success!", JOptionPane.INFORMATION_MESSAGE, view.getSuccessIcon());
-        	out.close();
-        }
+
+		try (Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))) {
+			out.write(output);
+		} finally {
+			String path = new File(solutionFileName).getAbsolutePath();
+			JOptionPane.showMessageDialog(null, "Solution has been successfully written to file " + solutionFileName + "      in path \n" + path, "Success!", JOptionPane.INFORMATION_MESSAGE, view.getSuccessIcon());
+		}
         
         
         
@@ -382,11 +354,6 @@ public class Solver implements Cloneable {
 				entry.getValue().clear();
 		}
 		emptyEverything();
-		op = key = key2 = null;
-		copyLeft = copyRight = null;
-		result = false;
-		number = whichSet = 0;	
-		spareMinisetNumber = -1;
 	}
 
 
@@ -450,22 +417,21 @@ public class Solver implements Cloneable {
 
 	private void addToMiniSets() {
 		String[] seperatedPremises = mainSet.split(",");
-		Operator key = null;
+		Operator key;
 		int len = seperatedPremises.length;
 		
 		seperatedPremises[0] = seperatedPremises[0].substring(1);   // trim first curly bracket {
 		seperatedPremises[len - 1] = seperatedPremises[len - 1].substring(0, seperatedPremises[len-1].length() - 1); // trim last }
-		subsets.add(new ArrayList<Statement>());  // initialize subset main arraylist by adding the Statements of main set
+		subsets.add(new ArrayList<>());  // initialize subset main arraylist by adding the Statements of main set
 		int i = 0;
 		for (String s : seperatedPremises) {
 			subsets.get(0).add(new Statement(s));
 			subsets.get(0).get(i).setMinisetNumber(0);
 			
 			key = subsets.get(0).get(i).getOperator();
-			
-			if (symtable.get(key) == null) {    // check if rule in symtable has an active arraylist with premises
-				symtable.put(key, new ArrayList<Statement>());
-			}
+
+			// check if rule in symtable has an active arraylist with premises
+			symtable.computeIfAbsent(key, k -> new ArrayList<>());
 			symtable.get(key).add(subsets.get(0).get(i));
 			i++;
 		}
@@ -494,7 +460,7 @@ public class Solver implements Cloneable {
 			mainSet = mainSet.replaceAll("\\s+","");
 		} else {		// given as file
 			try {
-				FileReader fr = new FileReader(new File(path));
+				FileReader fr = new FileReader(path);
 				BufferedReader br = new BufferedReader(fr);
 				String line;
 				line = br.readLine();
@@ -523,39 +489,37 @@ public class Solver implements Cloneable {
 	 * If 'not' encloses whole premise or part of it. Example below: 
 	 * ~(P&Q)->(G&S)  _____ ~(~(P&Q)->(G&S)) [NOT_IF_THEN]			~(P<->~(D&E))  _____ ~~(P<->~(D&E)) [DOUBLE_NOT]
 	 */
-	private void reformClause(String line, String catchClause) {		
-		
-		String clauseCopy = catchClause;
-		int i = 0, openPar = 0;
+	private void reformClause(String line, String catchClause) {
+
+		int i, openPar = 0;
 		boolean fullNegation = false;   // full_negation is when negation encloses whole premise and not part of it
 		
 		
 		
-		if (clauseCopy.length() <= 2) {		// Letter or Negative letter  ===>  P and ~Q become ~P and ~~Q respectively
+		if (catchClause.length() <= 2) {		// Letter or Negative letter  ===>  P and ~Q become ~P and ~~Q respectively
 			mainSet = line.substring(0,line.lastIndexOf('}')) + ",~" + catchClause + "}";
 			return;
 		}
 
 		
-		if (clauseCopy.charAt(0) == '~') {
+		if (catchClause.charAt(0) == '~') {
 			fullNegation = true;       // true if negation catches whole premise and false if it's part of it
 			
-			for (i = 1; i < clauseCopy.length(); i++) {
-				if (clauseCopy.charAt(i) == '(') {
+			for (i = 1; i < catchClause.length(); i++) {
+				if (catchClause.charAt(i) == '(') {
 					openPar++;
-				} else if (clauseCopy.charAt(i) == ')') {
+				} else if (catchClause.charAt(i) == ')') {
 					openPar--;
-				} else if (openPar == 0 && clauseCopy.charAt(i) != '(' && clauseCopy.charAt(i) != ')') {   // negation is part of letter __ ~P
+				} else if (openPar == 0 && catchClause.charAt(i) != '(' && catchClause.charAt(i) != ')') {   // negation is part of letter __ ~P
 					fullNegation = false;
 					break;
 				}
 					
 				
-				if (openPar == 0 && i != clauseCopy.length()-1) {   // negation is part of smaller parenthesis and not at whole premise
+				if (openPar == 0 && i != catchClause.length()-1) {   // negation is part of smaller parenthesis and not at whole premise
 					fullNegation = false;
 					break;
-				} else
-					fullNegation = true;
+				}
 			}
 		}
 		String prem = (line.charAt(0) == '/') ? "{" : line.substring(0,line.lastIndexOf('}')) + ",";
@@ -617,7 +581,7 @@ public class Solver implements Cloneable {
 				            	i = symtable.get(entry.getKey()).iterator();
 				            	Statement currentStatement;
 				            	while (i.hasNext()) {
-				            		currentStatement = (Statement) i.next();
+				            		currentStatement = i.next();
 				            		if (currentStatement.getMinisetNumber() == whatToDel)
 				            			i.remove();
 				            	}
@@ -672,7 +636,7 @@ public class Solver implements Cloneable {
 	/* Checks if given string uses legal grammar rules or has parenthesis issues.
 	 * If found any problem that doesn't meet the requirements, displays an error message and exits program */
 	private void checkInputForm(String s) {
-		if (s == "" || s == null) {
+		if (Objects.equals(s, "") || s == null) {
 			JOptionPane.showMessageDialog(null, "Empty input. Please type a problem in correct form to solve.\n\nProgram will be terminated.", "Failure", JOptionPane.ERROR_MESSAGE);
 			System.exit(1);
 		} else if (s.charAt(0) != '{' && s.charAt(0) != '/') {
